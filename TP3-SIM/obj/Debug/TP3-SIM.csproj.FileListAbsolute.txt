@@ -1,0 +1,11 @@
+C:\Users\schne\OneDrive\Escritorio\TP3-SIM\TP3-SIM\bin\Debug\TP3-SIM.exe.config
+C:\Users\schne\OneDrive\Escritorio\TP3-SIM\TP3-SIM\bin\Debug\TP3-SIM.exe
+C:\Users\schne\OneDrive\Escritorio\TP3-SIM\TP3-SIM\bin\Debug\TP3-SIM.pdb
+C:\Users\schne\OneDrive\Escritorio\TP3-SIM\TP3-SIM\obj\Debug\TP3-SIM.csproj.AssemblyReference.cache
+C:\Users\schne\OneDrive\Escritorio\TP3-SIM\TP3-SIM\obj\Debug\TP3_SIM.Principal.resources
+C:\Users\schne\OneDrive\Escritorio\TP3-SIM\TP3-SIM\obj\Debug\TP3_SIM.Properties.Resources.resources
+C:\Users\schne\OneDrive\Escritorio\TP3-SIM\TP3-SIM\obj\Debug\TP3-SIM.csproj.GenerateResource.cache
+C:\Users\schne\OneDrive\Escritorio\TP3-SIM\TP3-SIM\obj\Debug\TP3-SIM.csproj.CoreCompileInputs.cache
+C:\Users\schne\OneDrive\Escritorio\TP3-SIM\TP3-SIM\obj\Debug\TP3-SIM.exe
+C:\Users\schne\OneDrive\Escritorio\TP3-SIM\TP3-SIM\obj\Debug\TP3-SIM.pdb
+C:\Users\schne\OneDrive\Escritorio\TP3-SIM\TP3-SIM\obj\Debug\TP3_SIM.Formularios.FormMontecarlo.resources
