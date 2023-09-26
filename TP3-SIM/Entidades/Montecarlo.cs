@@ -14,6 +14,15 @@ namespace TP3_SIM.Entidades
         public int CantidadSimulaciones { get; set; }
         public int FilaDesde { get; set; }
         public int FilaHasta { get; set; }
+        public double probNoResponde { get; set; }
+        public double probRecordaba { get; set; }
+        public double probNoRecordaba { get; set; }
+        public double probNo1 { get; set; }
+        public double probDudoso1 { get; set; }
+        public double probSi1 { get; set; }
+        public double probNo2 { get; set; }
+        public double probDudoso2 { get; set; }
+        public double probSi2 { get; set; }
         public FormMontecarlo FormularioMontecarlo { get; set; }
         public DataGridView Grilla { get; set; }
 
@@ -67,13 +76,13 @@ namespace TP3_SIM.Entidades
                 fila2.Persona = i;
 
                 fila2.RNDRta1 = GenerarRND().ToString();
-                fila2.Recordaba = CalcularRecordaba(Convert.ToDouble(fila2.RNDRta1));
+                fila2.Recordaba = CalcularRecordaba(probNoResponde, probRecordaba, probNoRecordaba, Convert.ToDouble(fila2.RNDRta1));
 
                 fila2.RNDRta2 = (fila2.Recordaba == "Si") ? GenerarRND().ToString() : "";
-                fila2.Compra1 = (fila2.Recordaba == "Si") ? CalcularCompra1(Convert.ToDouble(fila2.RNDRta2)) : "";
+                fila2.Compra1 = (fila2.Recordaba == "Si") ? CalcularCompra(probNo1, probDudoso1, probSi1, Convert.ToDouble(fila2.RNDRta2)) : "";
   
                 fila2.RNDRta3 = (fila2.Recordaba == "No") ? GenerarRND().ToString() : "";
-                fila2.Compra2 = (fila2.Recordaba == "No") ? CalcularCompra1(Convert.ToDouble(fila2.RNDRta3)) : "";
+                fila2.Compra2 = (fila2.Recordaba == "No") ? CalcularCompra(probNo2, probDudoso2, probSi2, Convert.ToDouble(fila2.RNDRta3)) : "";
 
                 fila2.CantCompras = fila1.CantCompras + ((fila2.Compra1 == "Si" || fila2.Compra2 == "Si") ? 1 : 0);    
 
@@ -150,9 +159,56 @@ namespace TP3_SIM.Entidades
             formulario.Show();
         }
 
-        private string CalcularRecordaba(double random)
+        static string CalcularRecordaba(double probA, double probB, double probC, double random)
         {
-            if (0.00 <= random && random <= 0.09) return "N/R";
+            double sumaProb = probA + probB + probC;
+
+            if (Math.Abs(sumaProb - 1.0) > 0.001)
+            {
+                //throw new ArgumentException("Las probabilidades deben sumar 1.0");
+            }
+
+            if (random < probA)
+            {
+                return "N/R";
+            }
+            else if (random < probA + probB)
+            {
+                return "Si";
+            }
+            else
+            {
+                return "No";
+            }
+        }
+
+        static string CalcularCompra(double probA, double probB, double probC, double random)
+        {
+            double sumaProb = probA + probB + probC;
+
+            if (Math.Abs(sumaProb - 1.0) > 0.001)
+            {
+                //throw new ArgumentException("Las probabilidades deben sumar 1.0");
+            }
+
+            if (random < probA)
+            {
+                return "No";
+            }
+            else if (random < probA + probB)
+            {
+                return "Dudoso";
+            }
+            else
+            {
+                return "Si";
+            }
+        }
+
+        /*
+        private string CalcularRecordaba2(double random)
+        {
+            if (0.00 <= random && random <= probNoRecordaba - 1) return "N/R";
 
             if (0.10 <= random && random <= 0.49) return "Si";
 
@@ -182,6 +238,7 @@ namespace TP3_SIM.Entidades
 
             return "";
         }
+        */
 
         private void AgregarFilaEnGrilla(Fila fila)
         {

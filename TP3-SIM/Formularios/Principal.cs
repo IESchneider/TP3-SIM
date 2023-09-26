@@ -48,14 +48,18 @@ namespace TP3_SIM
             montecarlo.CantidadSimulaciones = Convert.ToInt32(txtNumeroSimulaciones.Text.Trim());
             montecarlo.FilaDesde = Convert.ToInt32(txtFilaDesde.Text.Trim());
             montecarlo.FilaHasta = Convert.ToInt32(txtFilaHasta.Text.Trim());
+            
+            montecarlo.probNoResponde = Convert.ToDouble(probNoResponde.Value);
+            montecarlo.probRecordaba = Convert.ToDouble(probRecordaba.Value);
+            montecarlo.probNoRecordaba = Convert.ToDouble(probNoRecordaba.Value);
 
-            //montecarlo.LimiteInferiorNormal = Convert.ToDouble(numLimiteInferiorNormal.Value);
-            //montecarlo.LimiteSuperiorNormal = Convert.ToDouble(numLimiteSuperiorNormal.Value);
-            //montecarlo.CostoPasarNoche = Convert.ToDouble(numCostoPasarNoche.Value);
-            //montecarlo.CostoMuelleDesocupado = Convert.ToDouble(numCostoMuelleDesocupado.Value);
-            //montecarlo.MinimoCantidadBarcosDescargados = Convert.ToInt32(numMinimoUniforme.Value);
-            //montecarlo.MaximoCantidadBarcosDescargados = Convert.ToInt32(numMaximoUniforme.Value);
-            //montecarlo.MediaLlegadaBarcos = Convert.ToInt32(numMediaPoisson.Value);
+            montecarlo.probNo1 = Convert.ToDouble(probNo1.Value);
+            montecarlo.probDudoso1 = Convert.ToDouble(probDudoso1.Value);
+            montecarlo.probSi1 = Convert.ToDouble(probSi1.Value);
+
+            montecarlo.probNo2 = Convert.ToDouble(probNo2.Value);
+            montecarlo.probDudoso2 = Convert.ToDouble(probDudoso2.Value);
+            montecarlo.probSi2 = Convert.ToDouble(probSi2.Value);
 
             montecarlo.FormularioMontecarlo = new FormMontecarlo();
 
@@ -104,38 +108,32 @@ namespace TP3_SIM
 
         private bool ValidacionesParametros()
         {
+
             // Lista de validaciones de todos los parámetros.
+
             /*
-            if (numLimiteInferiorNormal.Value > numLimiteSuperiorNormal.Value || numLimiteSuperiorNormal.Value == 0)
+            if (probNoResponde.Value >= 0 && probRecordaba.Value >= 0 && probNoRecordaba.Value >= 0 &&
+                probNo1.Value >= 0 && probDudoso1.Value >= 0 && probSi1.Value >= 0 &&
+                probNo2.Value >= 0 && probDudoso2.Value >= 0 && probSi2.Value >= 0)
             {
-                MessageBox.Show("Los valores de costo de descarga son inválidos, intente nuevamente.", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
 
-            if (numCostoPasarNoche.Value == 0)
-            {
-                MessageBox.Show("El valor de costo de pasar la noche es inválido, intente nuevamente.", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
             }
-
-            if (numCostoMuelleDesocupado.Value == 0)
+            else
             {
-                MessageBox.Show("El valor de costo de muelle desocupado es inválido, intente nuevamente.", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            if (numMinimoUniforme.Value > numMaximoUniforme.Value || numMaximoUniforme.Value == 0)
-            {
-                MessageBox.Show("Los valores de cantidad de barcos descargados son inválidos, intente nuevamente.", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            if (numMediaPoisson.Value == 0)
-            {
-                MessageBox.Show("La media de llegadas para la distribución de Poisson debe ser mayor a cero, intente nuevamente.", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Al menos uno de los valores es negativo
+                MessageBox.Show("Hay un valor de probabilidad que es negativo, intente nuevamente.", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             */
+
+            if ((Math.Abs(Convert.ToDouble(probNoResponde.Value + probRecordaba.Value + probNoRecordaba.Value) - 1.0) > 0.001) ||
+                (Math.Abs(Convert.ToDouble(probNo1.Value + probDudoso1.Value + probSi1.Value) - 1.0) > 0.001) ||
+                (Math.Abs(Convert.ToDouble(probNo2.Value + probDudoso2.Value + probSi2.Value) - 1.0) > 0.001))
+            {
+                MessageBox.Show("La suma de las probabilidades tiene que sumar 1, intente nuevamente.", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             return true;
         }
 
@@ -158,13 +156,17 @@ namespace TP3_SIM
         {
             // Insertar valores por defecto en los numerics.
 
-            //numLimiteInferiorNormal.Value = 120;
-            //numLimiteSuperiorNormal.Value = 800;
-            //numCostoPasarNoche.Value = 1500;
-            //numCostoMuelleDesocupado.Value = 3200;
-            //numMinimoUniforme.Value = 0;
-            //numMaximoUniforme.Value = 9;
-            //numMediaPoisson.Value = 2;
+            probNoResponde.Value = 0.10M;
+            probRecordaba.Value = 0.40M;
+            probNoRecordaba.Value = 0.50M;
+            
+            probNo1.Value = 0.30M;
+            probDudoso1.Value = 0.30M;
+            probSi1.Value = 0.40M;
+
+            probNo2.Value = 0.50M;
+            probDudoso2.Value = 0.40M;
+            probSi2.Value = 0.10M;
         }
 
         private void checkBoxEdicion_CheckedChanged(object sender, EventArgs e)
@@ -183,24 +185,32 @@ namespace TP3_SIM
 
         private void DesactivarBotonesParametros()
         {
-            //numLimiteInferiorNormal.Enabled = false;
-            //numLimiteSuperiorNormal.Enabled = false;
-            //numCostoPasarNoche.Enabled = false;
-            //numCostoMuelleDesocupado.Enabled = false;
-            //numMinimoUniforme.Enabled = false;
-            //numMaximoUniforme.Enabled = false;
-            //numMediaPoisson.Enabled = false;
+            probNoResponde.Enabled = false;
+            probRecordaba.Enabled = false;
+            probNoRecordaba.Enabled = false;
+
+            probNo1.Enabled = false;
+            probDudoso1.Enabled = false;
+            probSi1.Enabled = false;
+
+            probNo2.Enabled = false;
+            probDudoso2.Enabled = false;
+            probSi2.Enabled = false;
         }
 
         private void ActivarBotonesParametros()
         {
-            //numLimiteInferiorNormal.Enabled = true;
-            //numLimiteSuperiorNormal.Enabled = true;
-            //numCostoPasarNoche.Enabled = true;
-            //numCostoMuelleDesocupado.Enabled = true;
-            //numMinimoUniforme.Enabled = true;
-            //numMaximoUniforme.Enabled = true;
-            //numMediaPoisson.Enabled = true;
+            probNoResponde.Enabled = true;
+            probRecordaba.Enabled = true;
+            probNoRecordaba.Enabled = true;
+
+            probNo1.Enabled = true;
+            probDudoso1.Enabled = true;
+            probSi1.Enabled = true;
+
+            probNo2.Enabled = true;
+            probDudoso2.Enabled = true;
+            probSi2.Enabled = true;
         }
     }
 }
